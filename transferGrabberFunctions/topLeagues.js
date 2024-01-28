@@ -1,0 +1,57 @@
+const topLeagues = [
+  {
+    name: "English Premier League",
+    id: 47,
+    table: "top_english_premier_league",
+  },
+  { name: "La liga", id: 87, table: "top_la_liga" },
+  { name: "Seria A", id: 55, table: "top_seria_a" },
+  { name: "Bundesliga", id: 54, table: "top_bundesliga" },
+  { name: "Ligue 1", id: 53, table: "top_ligue_1" },
+  { name: "Liga Profesional", id: 112, table: "top_liga_profesional" },
+  { name: "Austrian Bundesliga", id: 38, table: "top_austrian_bundesliga" },
+  { name: "Belgian Pro League", id: 40, table: "top_belgian_pro_league" },
+  { name: "Brazilian Serie A", id: 268, table: "top_brazilian_serie_a" },
+  {
+    name: "Croatian Football League",
+    id: 252,
+    table: "top_croatian_football_league",
+  },
+  { name: "Czech First League", id: 122, table: "top_czech_first_league" },
+  { name: "Danish League", id: 46, table: "top_danish_league" },
+  { name: "Championship", id: 48, table: "top_championship" },
+  { name: "LaLiga 2", id: 140, table: "top_laliga_2" },
+  { name: "2. Bundesliga", id: 146, table: "top_bundesliga_2" },
+  {
+    name: "Irish Premier Division",
+    id: 126,
+    table: "top_irish_premier_division",
+  },
+  { name: "Italian Serie B", id: 86, table: "top_italian_serie_b" },
+  {
+    name: "Saudi Arabian Pro League",
+    id: 536,
+    table: "top_saudi_arabian_pro_league",
+  },
+  { name: "Mexican Liga MX", id: 230, table: "top_mexican_liga_mx" },
+  { name: "Eredivise", id: 57, table: "top_eredivise" },
+  { name: "Norway Elite Serien", id: 59, table: "top_norway_elite_serien" },
+  { name: "Polish Ekstraklasa", id: 196, table: "top_polish_ekstraklasa" },
+  { name: "Liga Portugal", id: 61, table: "top_liga_portugal" },
+  {
+    name: "Russian Premier League",
+    id: 63,
+    table: "top_russian_premier_league",
+  },
+  { name: "Scotish Premiership", id: 64, table: "top_scottish_premiership" },
+  {
+    name: "Switzerland Super League",
+    id: 69,
+    table: "top_switzerland_super_league",
+  },
+  { name: "Swedish Allsvenskan", id: 67, table: "top_swedish_allsvenskan" },
+  { name: "Turkish Super Lig", id: 71, table: "top_turkish_super_lig" },
+  { name: "MLS", id: 130, table: "top_mls" },
+];
+
+module.exports = topLeagues;
