@@ -1,21 +1,23 @@
 const manualToDb = require("./manualToDb");
 const allLeagues = require("./allLeagues");
 require("events").EventEmitter.defaultMaxListeners = 50;
-const { Client } = require("pg");
+const { Pool } = require("pg");
 const topLeagues = require("./topLeagues");
 require("dotenv").config({
   path: ".env",
 });
-const client = new Client({
-  host: process.env.HOST,
-  user: process.env.USER,
-  port: process.env.PORT,
-  password: process.env.PASSWORD,
-  database: process.env.DATABASE,
+
+const fs = require("fs");
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 async function startingFile() {
-  client.connect();
+  // client.connect();
   let allTotalAdded = 0;
   let topTotalAdded = 0;
   try {
@@ -28,10 +30,10 @@ async function startingFile() {
         // let time_added = Date.now();
         // time_added = new Date(new Date(time_added).toISOString());
         const addedEntries = await manualToDb(
-          league.table,
           `https://www.fotmob.com/transfers?leagueIds=${league.id}`,
           league.id,
-          client
+          pool,
+          false
         );
         console.log(
           `${league.name}: Added ${addedEntries} entries to ${league.name}...`
@@ -48,10 +50,10 @@ async function startingFile() {
         // let time_added = Date.now();
         // time_added = new Date(new Date(time_added).toISOString());
         const addedEntries = await manualToDb(
-          league.table,
           `https://www.fotmob.com/transfers?showTop=true&leagueIds=${league.id}`,
           league.id,
-          client
+          pool,
+          true
         );
         console.log(
           `TOP: ${league.name}: Added ${addedEntries} entries to ${league.name}...`
@@ -68,9 +70,11 @@ async function startingFile() {
     console.log("ALL DONE");
   } catch (err) {
     console.log(err);
-  } finally {
-    client.end();
   }
+
+  // finally {
+  //   client.end();
+  // }
 }
 
 startingFile();

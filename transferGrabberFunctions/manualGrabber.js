@@ -4,7 +4,7 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 
 require("dotenv").config();
 
-const manualGrabber = async (baseURL, table, params) => {
+const manualGrabber = async (baseURL, params) => {
   puppeteer.use(StealthPlugin());
   const url = new URL(baseURL);
   if (params) {
@@ -28,7 +28,7 @@ const manualGrabber = async (baseURL, table, params) => {
     // await page.waitForSelector(
     //   "div.css-lsp674-TransferItemContainer-TransferItemGrid"
     // );
-    await page.screenshot({ path: `screenshots/${table}.png` });
+    // await page.screenshot({ path: `screenshots/${table}.png` });
 
     const allTransfers = await page.evaluate(() => {
       const transfers = document.querySelectorAll(

@@ -1,7 +1,7 @@
 const manualGrabber = require("./manualGrabber");
 
-async function manualToDb(table, url, leagueId, client) {
-  let results = await manualGrabber(url, table);
+async function manualToDb(url, leagueId, pool, top) {
+  let results = await manualGrabber(url);
   let numberOfAddedEntries = 0;
 
   try {
@@ -34,9 +34,19 @@ async function manualToDb(table, url, leagueId, client) {
     values.reverse();
 
     // console.log(values);
-    const lastEntry = await client.query(
-      `SELECT name,transfer_date,from_club FROM ${table} ORDER BY id DESC LIMIT 1`
-    );
+    let lastEntry;
+    if (top) {
+      lastEntry = await pool.query(
+        `SELECT name,transfer_date,from_club FROM top_all_transfers WHERE league_id=$1 ORDER BY id DESC LIMIT 1`,
+        [leagueId]
+      );
+    } else {
+      lastEntry = await pool.query(
+        `SELECT name,transfer_date,from_club FROM all_transfers WHERE league_id=$1 ORDER BY id DESC LIMIT 1`,
+        [leagueId]
+      );
+    }
+
     let indexOfFirstDupe;
     if (lastEntry.rows.length > 0) {
       const lastEntryName = lastEntry.rows[0].name;
@@ -90,12 +100,20 @@ async function manualToDb(table, url, leagueId, client) {
         .join(",");
 
       // Add the table name directly into the query string
-      const query = {
-        text: `INSERT INTO ${table} ("name","player_image","from_club","from_club_icon","to_club","to_club_icon","fee","fee_subtitle","position","contract","market_value","transfer_date", "league_id", "time_added") VALUES ${placeholders}`,
-        values: [].concat(...values),
-      };
+      let query;
+      if (top) {
+        query = {
+          text: `INSERT INTO top_all_transfers ("name","player_image","from_club","from_club_icon","to_club","to_club_icon","fee","fee_subtitle","position","contract","market_value","transfer_date", "league_id", "time_added") VALUES ${placeholders}`,
+          values: [].concat(...values),
+        };
+      } else {
+        query = {
+          text: `INSERT INTO all_transfers ("name","player_image","from_club","from_club_icon","to_club","to_club_icon","fee","fee_subtitle","position","contract","market_value","transfer_date", "league_id", "time_added") VALUES ${placeholders}`,
+          values: [].concat(...values),
+        };
+      }
 
-      await client.query(query);
+      await pool.query(query);
     }
   } catch (er) {
     console.log(er);

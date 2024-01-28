@@ -1,12 +1,9 @@
-async function ifOneLeague(client, league_id, top) {
-  const table_name_query = `SELECT name_of_table FROM leagues WHERE id=$1`;
-  let table_name = await client.query(table_name_query, [league_id]);
-  table_name = table_name.rows[0].name_of_table;
+async function ifOneLeague(top) {
   let finalQuery;
   if (top) {
-    finalQuery = `SELECT * FROM top_${table_name}`;
+    finalQuery = `SELECT * FROM top_all_transfers WHERE league_id=$1`;
   } else {
-    finalQuery = `SELECT * FROM ${table_name}`;
+    finalQuery = `SELECT * FROM all_transfers WHERE league_id=$1`;
   }
 
   return finalQuery;

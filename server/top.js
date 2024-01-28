@@ -25,7 +25,7 @@ topRouter.get("/:limit/:league_id/:orderby", async (req, res) => {
   try {
     let finalQuery;
     if (league_id >= 0) {
-      finalQuery = await ifOneLeague(client, league_id, true);
+      finalQuery = await ifOneLeague(true);
     } else if (league_id == "all_leagues") {
       finalQuery = await ifAllLeagues(true);
     }
@@ -43,7 +43,13 @@ topRouter.get("/:limit/:league_id/:orderby", async (req, res) => {
         break;
       }
     }
-    const response = await client.query(finalQuery);
+
+    let response;
+    if (league_id >= 0) {
+      response = await client.query(finalQuery, [league_id]);
+    } else if (league_id == "all_leagues") {
+      response = await client.query(finalQuery);
+    }
     res.json(response.rows);
   } catch (e) {
     console.log(e);

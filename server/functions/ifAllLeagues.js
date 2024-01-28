@@ -3,17 +3,12 @@ const allLeagues = require("../../transferGrabberFunctions/allLeagues");
 async function ifAllLeagues(top) {
   let selectStatements;
   if (top) {
-    selectStatements = allLeagues.map((league) => {
-      return `SELECT * FROM top_${league.table}`;
-    });
+    selectStatements = `SELECT * FROM top_all_transfers`;
   } else {
-    selectStatements = allLeagues.map((league) => {
-      return `SELECT * FROM ${league.table}`;
-    });
+    selectStatements = `SELECT * FROM all_transfers`;
   }
 
-  let finalQuery = selectStatements.join(" UNION ALL ");
-  return finalQuery;
+  return selectStatements;
 }
 
 module.exports = ifAllLeagues;
