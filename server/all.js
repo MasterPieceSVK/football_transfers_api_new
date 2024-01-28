@@ -51,7 +51,6 @@ allRouter.get("/:limit/:league_id/:orderby", async (req, res) => {
     } else if (league_id == "all_leagues") {
       response = await client.query(finalQuery);
     }
-    console.log(finalQuery);
 
     res.json(response.rows);
   } catch (e) {
