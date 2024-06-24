@@ -1,0 +1,1 @@
+This is the backend for my [Football transfers PWA](https://github.com/MasterPieceSVK/football_transfers_frontend). It also includes a scraper that scrapes fotmob for transfers and adds them to the database.
